@@ -34,19 +34,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     language_code = data['documents'][0]['detectedLanguage']['iso6391Name']
 
     language_to_voice = {
-        "de": "de-DE",
         "en": "en-US",
-        "es": "es-ES",
-        "fr": "fr-FR",
-        "it": "it-IT",
-        "ja": "ja-JP",
-        "ko": "ko-KR",
-        "pt": "pt-BR",
-        "zh_chs": "zh-CN",
-        "zh_cht": "zh-CN",
-        "ko": "ko-KR",
-        "ar": "ar-AE"
-    }
+        "ko": "ko-KR"
+}
 
     if response.status_code == 200:
         return func.HttpResponse(language_to_voice[language_code], status_code=200)
