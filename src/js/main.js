@@ -23,7 +23,7 @@ let IceServerCredential
 const TalkingAvatarCharacter = "lisa"
 const TalkingAvatarStyle = "casual-sitting"
 
-supported_languages = ["en-US", "de-DE", "zh-CN", "ar-AE"] // The language detection engine supports a maximum of 4 languages
+supported_languages = ["en-US", "ko-KR"] // The language detection engine supports a maximum of 4 languages
 
 let token
 
@@ -232,7 +232,7 @@ window.startSession = () => {
 }
 
 async function greeting() {
-  addToConversationHistory("Hello, my name is Lisa. How can I help you?", "light")
+  addToConversationHistory("안녕하세요, 저는 매가존 클라우드 AI Assistan, Lisa 라고 합니다. 무엇을 도와드릴까요?", "light")
 
   let spokenText = "<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xmlns:mstts='https://www.w3.org/2001/mstts' xml:lang='en-US'><voice xml:lang='en-US' xml:gender='Female' name='en-US-JennyNeural'>Hello, my name is Lisa. How can I help you?</voice></speak>"
   avatarSynthesizer.speakSsmlAsync(spokenText, (result) => {
