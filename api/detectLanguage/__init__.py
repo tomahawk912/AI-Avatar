@@ -44,6 +44,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         "pt": "pt-BR",
         "zh_chs": "zh-CN",
         "zh_cht": "zh-CN",
+        "ko": "ko-KR",
         "ar": "ar-AE"
     }
 
