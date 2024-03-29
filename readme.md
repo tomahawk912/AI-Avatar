@@ -1,4 +1,4 @@
-# Shop Easily Using Talking Avatar - Trailblazers Outdoor Gear
+# Shop Easily Using Talking Avatar - Megazone Avatar Lisa
 
 <img src="./demo-megazone-avatar.png" alt="drawing" style="width:1200px;"/>
 
