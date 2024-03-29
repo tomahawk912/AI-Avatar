@@ -1,6 +1,6 @@
 # Shop Easily Using Talking Avatar - Trailblazers Outdoor Gear
 
-<img src="./demo-screenshot.png" alt="drawing" style="width:1200px;"/>
+<img src="./demo-megazone-avatar.png" alt="drawing" style="width:1200px;"/>
 
 This solution accelerator can be used to deploy an application that offers an interactive shopping experience using a talking avatar. It uses Azure OpenAI combined with data stored on Cognitive Search and Azure SQL to generate answers.
 
