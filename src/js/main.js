@@ -192,40 +192,20 @@ window.startSession = () => {
   speechSynthesisConfig.speechSynthesisVoiceName = TTSVoice
   document.getElementById('playVideo').className = "round-button-hide"
 
-  // fetch("/api/getSpeechToken", {
-  //   method: "POST"
-  // })
-  //   .then(response => response.text())
-  //   .then(response => { 
-  //     speechSynthesisConfig.authorizationToken = response;
-  //     token = response
-  //   })
-  //   .then(() => {
-  //     speechSynthesizer = new SpeechSDK.SpeechSynthesizer(speechSynthesisConfig, null)
-  //     connectToAvatarService()
-  //     requestAnimationFrame(setupWebRTC)
-  //   })
+
   fetch("/api/getSpeechToken", {
     method: "POST"
   })
+    .then(response => response.text())
     .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.text();
-    })
-    .then(response => { 
       speechSynthesisConfig.authorizationToken = response;
       token = response
     })
     .then(() => {
       speechSynthesizer = new SpeechSDK.SpeechSynthesizer(speechSynthesisConfig, null)
       connectToAvatarService()
-      requestAnimationFrame(setupWebRTC)
+      setupWebRTC()
     })
-    .catch(e => {
-      console.error('There was a problem with the fetch operation: ' + e.message);
-    });
 }
 
 async function greeting() {
