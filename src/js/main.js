@@ -53,19 +53,16 @@ function setupWebRTC() {
   fetch("/api/getIceServerToken", {
     method: "POST"
   })
-    .then(response => response.json())
-    .then(response => { 
-      IceServerUsername = response.username
-      IceServerCredential = response.credential
-
+    .then(async res => {
+      const reponseJson = await res.json()
       peerConnection = new RTCPeerConnection({
         iceServers: [{
-          urls: [IceServerUrl],
-          username: IceServerUsername,
-          credential: IceServerCredential
+          urls: reponseJson["Urls"],
+          username: reponseJson["Username"],
+          credential: reponseJson["Password"]
         }]
       })
-    
+
       // Fetch WebRTC video stream and mount it to an HTML video element
       peerConnection.ontrack = function (event) {
         console.log('peerconnection.ontrack', event)
@@ -76,7 +73,7 @@ function setupWebRTC() {
             remoteVideoDiv.removeChild(remoteVideoDiv.childNodes[i])
           }
         }
-    
+
         const videoElement = document.createElement(event.track.kind)
         videoElement.id = event.track.kind
         videoElement.srcObject = event.streams[0]
@@ -91,21 +88,21 @@ function setupWebRTC() {
         videoElement.addEventListener('play', () => {
           remoteVideoDiv.style.width = videoElement.videoWidth / 2 + 'px'
           window.requestAnimationFrame(makeBackgroundTransparent)
-      })
+        })
       }
-    
+
       // Make necessary update to the web page when the connection state changes
       peerConnection.oniceconnectionstatechange = e => {
         console.log("WebRTC status: " + peerConnection.iceConnectionState)
-    
+
         if (peerConnection.iceConnectionState === 'connected') {
           document.getElementById('loginOverlay').classList.add("hidden");
         }
-    
+
         if (peerConnection.iceConnectionState === 'disconnected') {
         }
       }
-    
+
       // Offer to receive 1 audio, and 1 video track
       peerConnection.addTransceiver('video', { direction: 'sendrecv' })
       peerConnection.addTransceiver('audio', { direction: 'sendrecv' })
@@ -113,28 +110,28 @@ function setupWebRTC() {
       // start avatar, establish WebRTC connection
       avatarSynthesizer.startAvatarAsync(peerConnection).then((r) => {
         if (r.reason === SpeechSDK.ResultReason.SynthesizingAudioCompleted) {
-            console.log("[" + (new Date()).toISOString() + "] Avatar started. Result ID: " + r.resultId)
-            greeting()
+          console.log("[" + (new Date()).toISOString() + "] Avatar started. Result ID: " + r.resultId)
+          greeting()
         } else {
-            console.log("[" + (new Date()).toISOString() + "] Unable to start avatar. Result ID: " + r.resultId)
-            if (r.reason === SpeechSDK.ResultReason.Canceled) {
-                let cancellationDetails = SpeechSDK.CancellationDetails.fromResult(r)
-                if (cancellationDetails.reason === SpeechSDK.CancellationReason.Error) {
-                    console.log(cancellationDetails.errorDetails)
-                };
+          console.log("[" + (new Date()).toISOString() + "] Unable to start avatar. Result ID: " + r.resultId)
+          if (r.reason === SpeechSDK.ResultReason.Canceled) {
+            let cancellationDetails = SpeechSDK.CancellationDetails.fromResult(r)
+            if (cancellationDetails.reason === SpeechSDK.CancellationReason.Error) {
+              console.log(cancellationDetails.errorDetails)
+            };
 
-                console.log("Unable to start avatar: " + cancellationDetails.errorDetails);
-            }
+            console.log("Unable to start avatar: " + cancellationDetails.errorDetails);
+          }
         }
-    }).catch(
+      }).catch(
         (error) => {
-            console.log("[" + (new Date()).toISOString() + "] Avatar failed to start. Error: " + error)
-            document.getElementById('startSession').disabled = false
-            document.getElementById('configuration').hidden = false
+          console.log("[" + (new Date()).toISOString() + "] Avatar failed to start. Error: " + error)
+          document.getElementById('startSession').disabled = false
+          document.getElementById('configuration').hidden = false
         }
-    )
-    
-    })  
+      )
+
+    })
 }
 
 async function generateText(prompt) {
